@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `Back-End`.`Cargos` (
   `id_cargos` INT NOT NULL AUTO_INCREMENT,
   `nomeCargos` VARCHAR(45) NULL,
   `fk_setor` INT NOT NULL,
-  `Cargoscol` VARCHAR(45) NULL,
   PRIMARY KEY (`id_cargos`),
   CONSTRAINT `cargo_setor`
     FOREIGN KEY (`fk_setor`)
