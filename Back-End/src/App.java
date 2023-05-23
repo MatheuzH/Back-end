@@ -15,12 +15,13 @@ public class App {
         funcionario.create(f1);
         funcionario.create(f2);
         funcionario.create(f3);
-        funcionario.deletePerson(1);
-        
-        ArrayList<Funcionario> retriveall = funcionario.retriveAll();
+        funcionario.deleteFuncionario(1);
+        funcionario.retrieve(3);
 
-        for(Funcionario funcio : retriveall) {
-         System.out.println(funcio.getNomeFuncionario());
-        }
+         ArrayList<Funcionario> retriveall = funcionario.retriveAll();
+
+         for(Funcionario funcio : retriveall) {
+          System.out.println(funcio.getNomeFuncionario());
+         }
     }
 }

@@ -26,6 +26,9 @@ public class Funcionario {
         this.id_funcionario = id_funcionario;
     }
 
+    public Funcionario() {
+    }
+
     public int getCargo() {
         return cargo;
     }

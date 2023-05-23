@@ -33,14 +33,59 @@ public class FuncionariosDAO {
         return funcionarios;
     }
 
-    // public  boolean retrive(Funcionario retrivePerson) throws SQLException{
-    //     CriaConexao criaConexao = new CriaConexao();
-    //     Connection connection = criaConexao.recuperarConexao();
-    //     Statement stm = connection.createStatement();
-    //     String sql = "SELECT * FROM funcionarios WHERE id = ?";
-        
-
-    // }
+    public Funcionario retrieve(int id_funcionario) throws SQLException {
+        CriaConexao criaConexao = new CriaConexao();
+        Connection connection = criaConexao.recuperarConexao();
+        PreparedStatement stm = null;
+        ResultSet resultSet = null;
+    
+        try {
+            String sql = "SELECT * FROM funcionarios WHERE id_funcionario = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id_funcionario);
+    
+            resultSet = stm.executeQuery();
+    
+            if (resultSet.next()) {
+                Funcionario funcionario = new Funcionario();
+                funcionario.setId_funcionario(resultSet.getInt("id_funcionario"));
+                funcionario.setEmail(resultSet.getString("email"));
+                funcionario.setNomeFuncionario(resultSet.getString("nomeFuncionario"));
+                funcionario.setCargo(resultSet.getInt("cargo"));
+                funcionario.setSenha(resultSet.getString("senha"));
+                funcionario.setId_Setor(resultSet.getInt("fk_setor"));
+                return funcionario;
+            }
+    
+            return null;
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     public boolean create(Funcionario funcionarios) throws SQLException{
 
@@ -78,7 +123,7 @@ public class FuncionariosDAO {
         }
     }
 
-    public boolean deletePerson(int id_funcionario) throws SQLException {
+    public boolean deleteFuncionario(int id_funcionario) throws SQLException {
         CriaConexao criaConexao = new CriaConexao();
         Connection connection = criaConexao.recuperarConexao();
         PreparedStatement pstm = null;
