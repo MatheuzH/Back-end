@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Modulos.Cargo;
+//import Modulos.Cargo;
 import Modulos.Funcionario;
 
 public class FuncionariosDAO {
@@ -33,14 +33,14 @@ public class FuncionariosDAO {
         return funcionarios;
     }
 
-    public  boolean retrive(Funcionario retrivePerson) throws SQLException{
-        CriaConexao criaConexao = new CriaConexao();
-        Connection connection = criaConexao.recuperarConexao();
-        Statement stm = connection.createStatement();
-        String sql = "SELECT * FROM funcionarios WHERE id = ?";
+    // public  boolean retrive(Funcionario retrivePerson) throws SQLException{
+    //     CriaConexao criaConexao = new CriaConexao();
+    //     Connection connection = criaConexao.recuperarConexao();
+    //     Statement stm = connection.createStatement();
+    //     String sql = "SELECT * FROM funcionarios WHERE id = ?";
         
 
-    }
+    // }
 
     public boolean create(Funcionario funcionarios) throws SQLException{
 
@@ -78,18 +78,42 @@ public class FuncionariosDAO {
         }
     }
 
-    public boolean delete(Funcionario funcionarioDelete) throws SQLException{
+    public boolean deletePerson(int id_funcionario) throws SQLException {
         CriaConexao criaConexao = new CriaConexao();
         Connection connection = criaConexao.recuperarConexao();
+        PreparedStatement pstm = null;
 
-        String sql = "DELETE FROM back-end.Funcionarios WHERE id_funcionario = ?";
+        String sql = "DELETE FROM funcionarios WHERE id_funcionario = ?";
+        try {
+            pstm = connection.prepareStatement(sql);
+            pstm.setInt(1, id_funcionario);
 
-        try (PreparedStatement pstm = (PreparedStatement) connection.prepareStatement(sql)){
-            pstm.setInt(1, funcionarioDelete.getId_funcionario());
-            return pstm.execute();
+            int rowsAffected = pstm.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (pstm != null) {
+                try {
+                    pstm.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
-
 }
+
+
 
 
