@@ -33,28 +33,13 @@ public class FuncionariosDAO {
         return funcionarios;
     }
 
-    public Funcionario retrive() throws SQLException{
+    public  boolean retrive(Funcionario retrivePerson) throws SQLException{
         CriaConexao criaConexao = new CriaConexao();
         Connection connection = criaConexao.recuperarConexao();
+        Statement stm = connection.createStatement();
+        String sql = "SELECT * FROM funcionarios WHERE id = ?";
+        
 
-        String sql = "INSERT INTO funcionarios (email, nomeFuncionario, cargo, senha, fk_setor ) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement pstm = (PreparedStatement) connection.prepareStatement(sql)) {
-
-            stm.execute("SELECT * FROM funcionarios ");
-        ResultSet rst = stm.getResultSet();
-        ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
-        while (rst.next()){
-            int id_funcionario = rst.getInt("id_funcionario");
-            int cargo = rst.getInt("cargo");
-            int fk_setor = rst.getInt("fk_setor");
-            String email = rst.getString("email");
-            String nome = rst.getString("nomeFuncionario");
-            String senha = rst.getString("senha");
-            Funcionario funcionario = new Funcionario(id_funcionario,email,nome,cargo,senha,fk_setor);
-            funcionarios.add(funcionario);
-        }
-        connection.close();
-        return funcionarios;
     }
 
     public boolean create(Funcionario funcionarios) throws SQLException{
@@ -106,4 +91,5 @@ public class FuncionariosDAO {
     }
 
 }
+
 
