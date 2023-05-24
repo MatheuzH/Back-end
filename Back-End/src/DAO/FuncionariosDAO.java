@@ -33,19 +33,21 @@ public class FuncionariosDAO {
         return funcionarios;
     }
 
-    public Funcionario retrieve(int id_funcionario) throws SQLException {
+    public Funcionario retrieve(int id_funcionario) throws SQLException{
         CriaConexao criaConexao = new CriaConexao();
         Connection connection = criaConexao.recuperarConexao();
         PreparedStatement stm = null;
         ResultSet resultSet = null;
-    
+
         try {
             String sql = "SELECT * FROM funcionarios WHERE id_funcionario = ?";
             stm = connection.prepareStatement(sql);
             stm.setInt(1, id_funcionario);
-    
-            resultSet = stm.executeQuery();
-    
+
+            stm.execute();
+
+            resultSet = stm.getResultSet();
+
             if (resultSet.next()) {
                 Funcionario funcionario = new Funcionario();
                 funcionario.setId_funcionario(resultSet.getInt("id_funcionario"));
@@ -56,9 +58,7 @@ public class FuncionariosDAO {
                 funcionario.setId_Setor(resultSet.getInt("fk_setor"));
                 return funcionario;
             }
-    
-            return null;
-    
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -85,6 +85,7 @@ public class FuncionariosDAO {
                 }
             }
         }
+        return null;
     }
 
     public boolean create(Funcionario funcionarios) throws SQLException{
