@@ -12,16 +12,16 @@ public class App {
 
         FuncionariosDAO funcionario = new FuncionariosDAO();
 
-        funcionario.create(f1);
-        funcionario.create(f2);
-        funcionario.create(f3);
-        funcionario.deleteFuncionario(1);
-        funcionario.retrieve(3);
+        //funcionario.create(f1);
+        //funcionario.create(f2);
+        //funcionario.create(f3);
+        funcionario.retrieve(2);
 
-         ArrayList<Funcionario> retriveall = funcionario.retriveAll();
 
-         for(Funcionario funcio : retriveall) {
-          System.out.println(funcio.getNomeFuncionario());
-         }
+         //ArrayList<Funcionario> retriveall = funcionario.retriveAll();
+
+         //for(Funcionario funcio : retriveall) {
+         //System.out.println(funcio.getNomeFuncionario());
+        //}
     }
 }
