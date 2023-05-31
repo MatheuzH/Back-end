@@ -15,13 +15,14 @@ public class App {
         //funcionario.create(f1);
         //funcionario.create(f2);
         //funcionario.create(f3);
-        funcionario.retrieve(2);
+        //funcionario.retrieve(2);
 
 
-         //ArrayList<Funcionario> retriveall = funcionario.retriveAll();
+         ArrayList<Funcionario> retriveall = funcionario.retriveAll();
 
-         //for(Funcionario funcio : retriveall) {
-         //System.out.println(funcio.getNomeFuncionario());
-        //}
+         for(Funcionario funcio : retriveall) {
+         System.out.println("nome: " + funcio.getNomeFuncionario());
+         System.out.println("id: " + funcio.getId_funcionario());
+        }
     }
 }

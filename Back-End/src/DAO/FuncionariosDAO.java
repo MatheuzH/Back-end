@@ -61,7 +61,7 @@ public class FuncionariosDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return null; 
         } finally {
             if (resultSet != null) {
                 try {
