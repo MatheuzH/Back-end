@@ -10,9 +10,12 @@ import java.util.ArrayList;
 
 import Modulos.Chamado;
 import Modulos.ChamadoStatus;
+import Modulos.Setor;
 
 public class ChamadosDAO {
     public ArrayList<Chamado> retriveAll() throws SQLException{
+        ChamadoStatus chamadoStatus = null;
+        Setor setor = null;
         CriaConexao criaConexao = new CriaConexao();
         Connection connection = criaConexao.recuperarConexao();
         Statement stm = connection.createStatement();
@@ -26,8 +29,35 @@ public class ChamadosDAO {
             String responsavelChamado = rst.getString("responsavelChamado");
             String responsavelSolicitante = rst.getString("responsavelSolicitante");
             Date inicioChamado = rst.getDate("inicioChamado");
-            int chamadoStatus = rst.getInt();
-            Chamado chamado = new Chamado(nomeChamado, descricao, responsavelChamado, responsavelSolicitante, inicioChamado, urgencia, chamadoStatus);
+            int chamadoStatusInt = rst.getInt("chamadoStatus");
+            switch (chamadoStatusInt){
+                case 1:
+                chamadoStatus = ChamadoStatus.ABERTO;
+                break;
+                case 2:
+                chamadoStatus = ChamadoStatus.PENDENTE;
+                break;
+                case 3:
+                chamadoStatus = ChamadoStatus.PAUSADO;
+                break;
+                case 4: 
+                chamadoStatus = ChamadoStatus.FECHADO;
+                break;
+            }
+            int setorInt = rst.getInt("fk_setor");
+            switch (setorInt){
+                case 1:
+                setor = Setor.TI;
+                break;
+                case 2:
+                setor = Setor.COMERCIAL;
+                break;
+                case 3:
+                setor = Setor.OPERACOES;
+                break;
+        }
+            Chamado chamado = new Chamado(nomeChamado, descricao, responsavelChamado, 
+            responsavelSolicitante, inicioChamado, urgencia, chamadoStatus, setor);
             chamados.add(chamado);
         }
         connection.close();

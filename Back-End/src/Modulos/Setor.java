@@ -1,14 +1,17 @@
 package Modulos;
 
-public class Setor {
-    private int id_setor;
-    private String nomeSetor;
+public enum Setor {
+    TI(1),
+    COMERCIAL(2),
+    OPERACOES(3);
 
-    public int getId_Setor(){
-        return id_setor;
+    private final int dbValue;
+
+    private Setor(int dbValue) {
+        this.dbValue = dbValue;
     }
 
-    public String getNomeSetor(){
-        return nomeSetor;
+    public int getDbValues() {
+        return dbValue;
     }
 }

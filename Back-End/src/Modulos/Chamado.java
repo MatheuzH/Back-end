@@ -6,10 +6,12 @@ public class Chamado {
     private String nomeChamado, descricao, responsavelChamado, responsavelSolicitante;
     private Date inicioChamado;
     private int urgencia;
-    private int chamadoStatus;
+    private Setor setor;
+    private ChamadoStatus chamadoStatus;
+   
 
 
-    public Chamado(String nomeChamado, String descricao, String responsavelChamado, String responsavelSolicitante, Date inicioChamado, int urgencia, int chamadoStatus) {
+    public Chamado(String nomeChamado, String descricao, String responsavelChamado, String responsavelSolicitante, Date inicioChamado, int urgencia, ChamadoStatus chamadoStatus, Setor setor) {
         this.nomeChamado = nomeChamado;
         this.descricao = descricao;
         this.responsavelChamado = responsavelChamado;
@@ -17,10 +19,15 @@ public class Chamado {
         this.inicioChamado = inicioChamado;
         this.urgencia = urgencia;
         this.chamadoStatus = chamadoStatus;
+        this.setor = setor;
     }
 
     public Chamado(){
 
+    }
+
+    public Setor getSetor(){
+        return setor;
     }
 
     public String getNomeChamado() {
@@ -71,11 +78,11 @@ public class Chamado {
         this.urgencia = urgencia;
     }
 
-    public int getChamadoStatus() {
+    public ChamadoStatus getChamadoStatus() {
         return this.chamadoStatus;
     }
 
-    public void setChamadoStatus(int chamadoStatus) {
+    public void setChamadoStatus(ChamadoStatus chamadoStatus) {
         this.chamadoStatus = chamadoStatus;
     }
 }
