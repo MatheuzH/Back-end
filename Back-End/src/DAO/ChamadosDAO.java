@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Modulos.Chamado;
 import Modulos.ChamadoStatus;
@@ -21,18 +22,18 @@ public class ChamadosDAO {
         ResultSet rst = stm.getResultSet();
         ArrayList<Chamado> chamados = new ArrayList<Chamado>();
         while (rst.next()){
-            int urgencia = rst.getInt("urgencia");
+            int urgencia = rst.getInt("fk_urgencia");
             String nomeChamado = rst.getString("nomeChamado");
             String descricao = rst.getString("descricao");
             int responsavelChamado = rst.getInt("responsavelChamado");
             int responsavelSolicitante = rst.getInt("responsavelSolicitante");
-            LocalDate inicioChamado = (LocalDate) rst.getObject("inicioChamado");
-            int chamadoStatusInt = rst.getInt("chamadoStatus");
-            ChamadoStatus status = ChamadoStatus.values()[chamadoStatusInt];
+            Date inicioChamado = rst.getDate("inicioChamado");
+            int chamadoStatusInt = rst.getInt("fk_chamadoStatus");
+            ChamadoStatus status = ChamadoStatus.fromValue(chamadoStatusInt);
             int setorInt = rst.getInt("fk_setor");
-            Setor setor = Setor.values()[setorInt];
+            Setor setor = Setor.fromValue(setorInt);
             Chamado chamado = new Chamado(nomeChamado, descricao, responsavelChamado,
-            responsavelSolicitante, inicioChamado, urgencia, status, setor);
+            responsavelSolicitante, (java.sql.Date) inicioChamado, urgencia, status, setor);
             chamados.add(chamado);
         }
         connection.close();
@@ -113,6 +114,26 @@ public class ChamadosDAO {
             return pstm.execute();
         }
 
+    }
+
+    public boolean deleteChamado(int id_chamado) throws SQLException {
+        CriaConexao criaConexao = new CriaConexao();
+        Connection connection = criaConexao.recuperarConexao();
+        PreparedStatement pstm = null;
+
+        String sql = "DELETE FROM chamados WHERE id_chamados = ?";
+        try {
+            pstm = connection.prepareStatement(sql);
+            pstm.setInt(1, id_chamado);
+
+            int rowsAffected = pstm.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } 
     }
 
 }

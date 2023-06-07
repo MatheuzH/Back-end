@@ -42,10 +42,6 @@ public class Funcionario {
         return fk_setor;
     }
 
-    public Cargo getCargos(){
-        return cargo;
-    }
-
     public int getId_funcionario(){
         return id_funcionario;
     }
@@ -82,7 +78,5 @@ public class Funcionario {
         this.senha = senha;
     }
 
-    public void setCargo(Object object) {
-    }
 }
 

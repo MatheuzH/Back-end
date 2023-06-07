@@ -1,18 +1,17 @@
 package Modulos;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Chamado {
     private String nomeChamado, descricao;
-    private LocalDate inicioChamado;
+    private Date inicioChamado;
     private int urgencia, responsavelChamado, responsavelSolicitante;
     private Setor setor;
     private ChamadoStatus chamadoStatus;
-    public Object getSetor;
 
 
 
-    public Chamado(String nomeChamado, String descricao, int responsavelChamado, int urgencia, LocalDate inicioChamado, int responsavelSolicitante, ChamadoStatus chamadoStatus, Setor setor) {
+    public Chamado(String nomeChamado, String descricao, int responsavelChamado, int urgencia, Date inicioChamado, int responsavelSolicitante, ChamadoStatus chamadoStatus, Setor setor) {
         this.nomeChamado = nomeChamado;
         this.descricao = descricao;
         this.responsavelChamado = responsavelChamado;
@@ -63,11 +62,11 @@ public class Chamado {
         this.responsavelSolicitante = responsavelSolicitante;
     }
 
-    public LocalDate getInicioChamado() {
+    public Date getInicioChamado() {
         return this.inicioChamado;
     }
 
-    public void setInicioChamado(LocalDate inicioChamado) {
+    public void setInicioChamado(Date inicioChamado) {
         this.inicioChamado = inicioChamado;
     }
 

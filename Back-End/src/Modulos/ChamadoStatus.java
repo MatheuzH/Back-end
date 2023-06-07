@@ -12,7 +12,18 @@ public enum ChamadoStatus {
         this.statusChamado = statusChamado;
     }
 
-    public int getValores(){
+    public int getstatusChamado(){
         return statusChamado;
     }
+
+    public static ChamadoStatus fromValue(int statusChamado) {
+        for (ChamadoStatus chamado : ChamadoStatus.values()) {
+            if (chamado.getstatusChamado() == statusChamado) {
+                return chamado;
+            }
+        }
+        throw new IllegalArgumentException("Invalid value: " + statusChamado);
+}
+
+
 }

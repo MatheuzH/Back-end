@@ -14,4 +14,16 @@ public enum Setor {
     public int getDbValues() {
         return dbValue;
     }
+
+
+    public static Setor fromValue(int dbValue) {
+        for (Setor setor :  Setor.values()) {
+            if (setor.getDbValues() == dbValue) {
+                return setor;
+            }
+        }
+        throw new IllegalArgumentException("Invalid value: " + dbValue);
 }
+}
+
+

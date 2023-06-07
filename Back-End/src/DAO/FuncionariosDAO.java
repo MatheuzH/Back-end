@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Modulos.Cargo;
-//import Modulos.Cargo;
+import Modulos.Cargo;
 import Modulos.Funcionario;
 import Modulos.Setor;
 
@@ -25,9 +25,9 @@ public class FuncionariosDAO {
         while (rst.next()){
             int id_funcionario = rst.getInt("id_funcionario");
             int cargoInt = rst.getInt("cargo");
-            Cargo cargo = Cargo.values()[cargoInt];
-            int fk_setorInt = rst.getInt("fk_setor");
-            Setor setor = Setor.values()[fk_setorInt];
+            Cargo cargo = Cargo.fromValue(cargoInt);
+            int setorInt = rst.getInt("fk_setor");
+            Setor setor = Setor.fromValue(setorInt);
             String email = rst.getString("email");
             String nome = rst.getString("nomeFuncionario");
             String senha = rst.getString("senha");
@@ -102,7 +102,7 @@ public class FuncionariosDAO {
         try (PreparedStatement pstm = (PreparedStatement) connection.prepareStatement(sql)) {
             pstm.setString(1,funcionarios.getEmail());
             pstm.setString(2,funcionarios.getNomeFuncionario());
-            pstm.setInt(3,funcionarios.getCargos().cargos);
+            pstm.setInt(3,funcionarios.getCargo().cargos);
             pstm.setString(4,funcionarios.getSenha());
             pstm.setInt(5,funcionarios.getId_Setor().dbValue);
 
@@ -142,26 +142,11 @@ public class FuncionariosDAO {
             int rowsAffected = pstm.executeUpdate();
 
             return rowsAffected > 0;
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (pstm != null) {
-                try {
-                    pstm.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        } 
     }
 }
 

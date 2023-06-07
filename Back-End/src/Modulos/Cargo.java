@@ -14,4 +14,13 @@ public enum Cargo {
     public int getCargos() {
         return cargos;
     }
+
+    public static Cargo fromValue(int cargos) {
+        for (Cargo cargo : Cargo.values()) {
+            if (cargo.getCargos() == cargos) {
+                return cargo;
+            }
+        }
+        throw new IllegalArgumentException("Invalid value: " + cargos);
+}
 }
