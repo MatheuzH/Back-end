@@ -14,7 +14,6 @@ import Modulos.Setor;
 
 public class ChamadosDAO {
     public ArrayList<Chamado> retriveAll() throws SQLException{
-        Setor setor = null;
         CriaConexao criaConexao = new CriaConexao();
         Connection connection = criaConexao.recuperarConexao();
         Statement stm = connection.createStatement();
@@ -30,6 +29,8 @@ public class ChamadosDAO {
             LocalDate inicioChamado = (LocalDate) rst.getObject("inicioChamado");
             int chamadoStatusInt = rst.getInt("chamadoStatus");
             ChamadoStatus status = ChamadoStatus.values()[chamadoStatusInt];
+            int setorInt = rst.getInt("fk_setor");
+            Setor setor = Setor.values()[setorInt];
             Chamado chamado = new Chamado(nomeChamado, descricao, responsavelChamado,
             responsavelSolicitante, inicioChamado, urgencia, status, setor);
             chamados.add(chamado);

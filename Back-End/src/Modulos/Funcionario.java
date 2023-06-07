@@ -1,11 +1,12 @@
 package Modulos;
 
 public class Funcionario {
-    private int id_funcionario, fk_setor;
-    private int cargo;
+    private int id_funcionario;
+    private Cargo cargo;
+    private Setor fk_setor;
     private String email, nomeFuncionario, senha;
 
-    public Funcionario(int id_funcionario, String email, String nomeFuncionario, int cargo, String senha, int fk_setor) {
+    public Funcionario(int id_funcionario, String email, String nomeFuncionario, Cargo cargo, String senha, Setor fk_setor) {
         this.id_funcionario = id_funcionario;
         this.email = email;
         this.nomeFuncionario = nomeFuncionario;
@@ -14,7 +15,7 @@ public class Funcionario {
         this.fk_setor = fk_setor;
     }
 
-    public Funcionario(String email, String nomeFuncionario, int cargo, String senha, int fk_setor) {
+    public Funcionario(String email, String nomeFuncionario, Cargo cargo, String senha, Setor fk_setor) {
         this.email = email;
         this.nomeFuncionario = nomeFuncionario;
         this.cargo = cargo;
@@ -29,19 +30,19 @@ public class Funcionario {
     public Funcionario() {
     }
 
-    public int getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(int cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 
-    public int getId_Setor(){
+    public Setor getId_Setor(){
         return fk_setor;
     }
 
-    public int getCargos(){
+    public Cargo getCargos(){
         return cargo;
     }
 
@@ -65,7 +66,7 @@ public class Funcionario {
         this.id_funcionario = id_funcionario;
     }
 
-    public void setId_Setor(int id_setor){
+    public void setId_Setor(Setor id_setor){
         this.fk_setor = id_setor;
     }
 
@@ -79,6 +80,9 @@ public class Funcionario {
 
     public void setSenha(String senha){
         this.senha = senha;
+    }
+
+    public void setCargo(Object object) {
     }
 }
 
