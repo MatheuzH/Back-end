@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Modulos.Cargo;
+import Controles.CriaConexao;
 import Modulos.Cargo;
 import Modulos.Funcionario;
 import Modulos.Setor;
@@ -38,60 +38,41 @@ public class FuncionariosDAO {
         return funcionarios;
     }
 
-    // public Funcionario retrieve(int id_funcionario) throws SQLException{
-    //     CriaConexao criaConexao = new CriaConexao();
-    //     Connection connection = criaConexao.recuperarConexao();
-    //     PreparedStatement stm = null;
-    //     ResultSet resultSet = null;
-
-    //     try {
-    //         String sql = "SELECT * FROM funcionarios WHERE id_funcionario = ?";
-    //         stm = connection.prepareStatement(sql);
-    //         stm.setInt(1, id_funcionario);
-
-    //         stm.execute();
-
-    //         resultSet = stm.getResultSet();
-
-    //         if (resultSet.next()) {
-    //             Funcionario funcionario = new Funcionario();
-    //             funcionario.setId_funcionario(resultSet.getInt("id_funcionario"));
-    //             funcionario.setEmail(resultSet.getString("email"));
-    //             funcionario.setNomeFuncionario(resultSet.getString("nomeFuncionario"));
-    //             funcionario.setCargo(resultSet.getObject("cargo"));
-    //             funcionario.setSenha(resultSet.getString("senha"));
-    //             funcionario.setId_Setor(resultSet.getInt("fk_setor"));
-    //             return funcionario;
-    //         }
-
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //         return null; 
-    //     } finally {
-    //         if (resultSet != null) {
-    //             try {
-    //                 resultSet.close();
-    //             } catch (SQLException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //         if (stm != null) {
-    //             try {
-    //                 stm.close();
-    //             } catch (SQLException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //         if (connection != null) {
-    //             try {
-    //                 connection.close();
-    //             } catch (SQLException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
+    public Funcionario retrieve(int idFuncionario) throws SQLException {
+        CriaConexao criaConexao = new CriaConexao();
+    
+        try (Connection connection = criaConexao.recuperarConexao();
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM funcionarios WHERE id_funcionario = ?")) {
+            
+            statement.setInt(1, idFuncionario);
+            
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String email = resultSet.getString("email");
+                    String nomeFuncionario = resultSet.getString("nomeFuncionario");
+                    int cargoValue = resultSet.getInt("cargo");
+                    int setorValue = resultSet.getInt("fk_setor");
+    
+                    Cargo cargo = Cargo.fromValue(cargoValue);
+                    Setor setor = Setor.fromValue(setorValue);
+    
+                    Funcionario funcionario = new Funcionario();
+                    funcionario.setId_funcionario(idFuncionario);
+                    funcionario.setEmail(email);
+                    funcionario.setNomeFuncionario(nomeFuncionario);
+                    funcionario.setCargo(cargo);
+                    funcionario.setId_Setor(setor);
+    
+                    return funcionario;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return null;
+    }
+    
 
     public boolean create(Funcionario funcionarios) throws SQLException{
 
@@ -111,23 +92,26 @@ public class FuncionariosDAO {
 
     }
 
-    // public boolean update(Funcionario funcionario) throws SQLException{
-    //     CriaConexao criaConexao = new CriaConexao();
-    //     Connection connection = criaConexao.recuperarConexao();
-
-    //     String sql = "UPDATE back-end.funcionarios SET email = ?, nomeFuncionario = ?, cargo = ?, senha = ?, fk_setor = ? WHERE id_funcionario = ?";
-
-    //     try (PreparedStatement pstm = (PreparedStatement) connection.prepareStatement(sql)){
-    //         pstm.setString(1,funcionario.getEmail());
-    //         pstm.setString(2,funcionario.getNomeFuncionario());
-    //         pstm.setInt(3,funcionario.getCargo());
-    //         pstm.setString(4,funcionario.getSenha());
-    //         pstm.setInt(5,funcionario.getId_Setor());
-    //         pstm.setInt(6,funcionario.getId_funcionario());
-
-    //         return pstm.execute();
-    //     }
-    // }
+    public boolean updateFuncionario(int idFuncionario, String novoEmail, String novoNome, Cargo novoCargo, Setor novoSetor) throws SQLException {
+        CriaConexao criaConexao = new CriaConexao();
+        try (Connection connection = criaConexao.recuperarConexao();
+             PreparedStatement pstm = connection.prepareStatement("UPDATE funcionarios SET email = ?, nomeFuncionario = ?, cargo = ?, fk_setor = ? WHERE id_funcionario = ?")) {
+    
+            pstm.setString(1, novoEmail);
+            pstm.setString(2, novoNome);
+            pstm.setInt(3, novoCargo.getValue());
+            pstm.setInt(4, novoSetor.getValue());
+            pstm.setInt(5, idFuncionario);
+    
+            int rowsAffected = pstm.executeUpdate();
+    
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
 
     public boolean deleteFuncionario(int id_funcionario) throws SQLException {
         CriaConexao criaConexao = new CriaConexao();

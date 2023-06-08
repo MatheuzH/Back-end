@@ -23,4 +23,8 @@ public enum Cargo {
         }
         throw new IllegalArgumentException("Invalid value: " + cargos);
 }
+
+    public int getValue() {
+        return cargos;
+    }
 }

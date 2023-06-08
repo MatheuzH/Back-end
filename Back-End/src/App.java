@@ -19,22 +19,43 @@ public class App {
       //Funcionario f1 = new Funcionario("@matheus", "matheus", Cargo.ANALISTATI, "1234", 1);
       //Funcionario f2 = new Funcionario("@gabriel", "gabriel", Cargo.ADMSIS, "1234", 2);
       //Funcionario f3 = new Funcionario("@constant", "constant", Cargo.GESTORCOMERCIAL, "1234", 3);
-      //Chamado chamado = new Chamado("teste","Estou testando o create",1,1,LocalDate.of(2023, 06, 05),2,ChamadoStatus.ABERTO,Setor.TI);
+      // Chamado chamado = new Chamado("teste", "testando o chamado", 1, 1, ,2,ChamadoStatus.ABERTO,Setor.TI); 
+      // ChamadosDAO chamadoDao = new ChamadosDAO();
 
-        FuncionariosDAO funcionario = new FuncionariosDAO();
-        ChamadosDAO criarChamado = new ChamadosDAO();
+    
 
-      //    criarChamado.create(chamado);
+
+
+
+
          //funcionario.create(f1);
          //funcionario.create(f2);
          //funcionario.create(f3);
         // funcionario.retrieve(2);
         
-         funcionario.deleteFuncionario(2);
 
+        // FuncionariosDAO funcionarioDAO = new FuncionariosDAO();
+        // int idFuncionario = 5; 
+        // Funcionario funcionario = null;
         
 
 
+
+
+        // funcionario = funcionarioDAO.retrieve(idFuncionario);
+       
+        // if (funcionario != null) {
+        //     System.out.println("Funcionário encontrado:");
+        //     System.out.println("ID: " + funcionario.getId_funcionario());
+        //     System.out.println("Email: " + funcionario.getEmail());
+        //     System.out.println("Nome: " + funcionario.getNomeFuncionario());
+        //     System.out.println("Cargo: " + funcionario.getCargo());
+        //     System.out.println("Setor: " + funcionario.getId_Setor());
+        // } else {
+        //     System.out.println("Funcionário não encontrado.");
+        // }
+    
+        
           // ArrayList<Chamado> retriveall = criarChamado.retriveAll();
 
           // for(Chamado cham : retriveall) {

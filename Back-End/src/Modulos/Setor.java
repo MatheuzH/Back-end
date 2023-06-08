@@ -24,6 +24,10 @@ public enum Setor {
         }
         throw new IllegalArgumentException("Invalid value: " + dbValue);
 }
+
+    public int getValue() {
+        return dbValue;
+    }
 }
 
 

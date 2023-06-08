@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Chamado {
     private String nomeChamado, descricao;
     private Date inicioChamado;
-    private int urgencia, responsavelChamado, responsavelSolicitante;
+    private int idChamado, urgencia, responsavelChamado, responsavelSolicitante;
     private Setor setor;
     private ChamadoStatus chamadoStatus;
 
@@ -22,8 +22,12 @@ public class Chamado {
         this.setor = setor;
     }
 
-    public Chamado(){
+    public Chamado(int idChamado){
 
+    }
+
+    public Chamado() {
+        
     }
 
     public Setor getSetor(){
@@ -84,6 +88,10 @@ public class Chamado {
 
     public void setChamadoStatus(ChamadoStatus chamadoStatus) {
         this.chamadoStatus = chamadoStatus;
+    }
+
+    public void setIdChamado(int idChamado) {
+        this.idChamado = idChamado;
     }
 }
 
