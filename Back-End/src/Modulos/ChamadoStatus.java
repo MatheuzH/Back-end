@@ -23,7 +23,10 @@ public enum ChamadoStatus {
             }
         }
         throw new IllegalArgumentException("Invalid value: " + statusChamado);
-}
+    }
 
+    public int getValue(){
+        return statusChamado;
+    }
 
 }

@@ -1,17 +1,17 @@
 package Modulos;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Chamado {
     private String nomeChamado, descricao;
-    private Date inicioChamado;
+    private LocalDate inicioChamado;
     private int idChamado, urgencia, responsavelChamado, responsavelSolicitante;
     private Setor setor;
     private ChamadoStatus chamadoStatus;
 
 
 
-    public Chamado(String nomeChamado, String descricao, int responsavelChamado, int urgencia, Date inicioChamado, int responsavelSolicitante, ChamadoStatus chamadoStatus, Setor setor) {
+    public Chamado(String nomeChamado, String descricao, int responsavelChamado, int urgencia, LocalDate inicioChamado, int responsavelSolicitante, ChamadoStatus chamadoStatus, Setor setor) {
         this.nomeChamado = nomeChamado;
         this.descricao = descricao;
         this.responsavelChamado = responsavelChamado;
@@ -21,6 +21,20 @@ public class Chamado {
         this.chamadoStatus = chamadoStatus;
         this.setor = setor;
     }
+
+    public Chamado(int idChamado, String nomeChamado, String descricao, int responsavelChamado, int urgencia, LocalDate inicioChamado, int responsavelSolicitante, ChamadoStatus chamadoStatus, Setor setor) {
+        this.idChamado = idChamado;
+        this.nomeChamado = nomeChamado;
+        this.descricao = descricao;
+        this.responsavelChamado = responsavelChamado;
+        this.responsavelSolicitante = responsavelSolicitante;
+        this.inicioChamado = inicioChamado;
+        this.urgencia = urgencia;
+        this.chamadoStatus = chamadoStatus;
+        this.setor = setor;
+    }
+
+
 
     public Chamado(int idChamado){
 
@@ -66,11 +80,11 @@ public class Chamado {
         this.responsavelSolicitante = responsavelSolicitante;
     }
 
-    public Date getInicioChamado() {
+    public LocalDate getInicioChamado() {
         return this.inicioChamado;
     }
 
-    public void setInicioChamado(Date inicioChamado) {
+    public void setInicioChamado(LocalDate inicioChamado) {
         this.inicioChamado = inicioChamado;
     }
 
@@ -82,6 +96,10 @@ public class Chamado {
         this.urgencia = urgencia;
     }
 
+    public void setSetor(Setor setor) {
+        this.setor = setor;
+    }
+
     public ChamadoStatus getChamadoStatus() {
         return this.chamadoStatus;
     }
@@ -91,7 +109,19 @@ public class Chamado {
     }
 
     public void setIdChamado(int idChamado) {
-        this.idChamado = idChamado;
+    }
+
+    public int getidChamado(){
+        return this.idChamado;
+    }
+
+    @Override
+    public String toString() {
+       return "Id chamado: " + this.getidChamado()
+                + " " + "\nNome chamado: " + this.getNomeChamado()
+                + " " + "\nDescrição chamado: " + this.getDescricao()
+                + " " + "\nResponsável Solicitante: " + this.getResponsavelSolicitante()
+                + " " + "\nResponsável do chamado: " + this.getResponsavelChamado();
     }
 }
 

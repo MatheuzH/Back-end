@@ -5,8 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 import Controles.CriaConexao;
 import Modulos.Chamado;
@@ -22,18 +23,19 @@ public class ChamadosDAO {
         ResultSet rst = stm.getResultSet();
         ArrayList<Chamado> chamados = new ArrayList<Chamado>();
         while (rst.next()){
+            int idChamado = rst.getInt("id_chamados");
             int urgencia = rst.getInt("fk_urgencia");
             String nomeChamado = rst.getString("nomeChamado");
             String descricao = rst.getString("descricao");
             int responsavelChamado = rst.getInt("responsavelChamado");
             int responsavelSolicitante = rst.getInt("responsavelSolicitante");
-            Date inicioChamado = rst.getDate("inicioChamado");
+            LocalDate inicioChamado = rst.getObject("inicioChamado", LocalDate.class);
             int chamadoStatusInt = rst.getInt("fk_chamadoStatus");
             ChamadoStatus status = ChamadoStatus.fromValue(chamadoStatusInt);
             int setorInt = rst.getInt("fk_setor");
             Setor setor = Setor.fromValue(setorInt);
-            Chamado chamado = new Chamado(nomeChamado, descricao, responsavelChamado,
-            responsavelSolicitante, (java.sql.Date) inicioChamado, urgencia, status, setor);
+            Chamado chamado = new Chamado(idChamado, nomeChamado, descricao, responsavelChamado,
+            responsavelSolicitante, inicioChamado, urgencia, status, setor);
             chamados.add(chamado);
         }
         connection.close();
@@ -44,51 +46,66 @@ public class ChamadosDAO {
         CriaConexao criaConexao = new CriaConexao();
         
         try (Connection connection = criaConexao.recuperarConexao();
-             PreparedStatement pstm = connection.prepareStatement("SELECT * FROM chamados WHERE id_chamados = ?")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM chamados WHERE id_chamados = ?")) {
             
-            pstm.setInt(1, idChamado);
+            statement.setInt(1, idChamado);
             
-            try (ResultSet resultSet = pstm.executeQuery()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
+                    int idChamados = resultSet.getInt("id_chamados");
                     String nomeChamado = resultSet.getString("nomeChamado");
                     String descricao = resultSet.getString("descricao");
                     int responsavelChamado = resultSet.getInt("responsavelChamado");
+                    int urgencia = resultSet.getInt("fk_urgencia");
+                    LocalDate inicioChamado = resultSet.getObject("inicioChamado", LocalDate.class);
                     int responsavelSolicitante = resultSet.getInt("responsavelSolicitante");
-                    Date inicioChamado = resultSet.getDate("inicioChamado");
-                    int urgencia = resultSet.getInt("urgencia");
-                    ChamadoStatus status = ChamadoStatus.valueOf(resultSet.getString("chamadoStatus"));
-                    Setor setor = Setor.valueOf(resultSet.getString("setor"));
+                    int setorValue = resultSet.getInt("fk_setor");
+                    int chamadoStatusValue = resultSet.getInt("fk_chamadoStatus");
+
+                    Setor setor = Setor.fromValue(setorValue);
+                    ChamadoStatus status = ChamadoStatus.fromValue(chamadoStatusValue);
                     
-                    Chamado chamado = new Chamado(nomeChamado, descricao, responsavelChamado, urgencia, (java.sql.Date) inicioChamado, responsavelSolicitante,  status, setor);
-                    chamado.setIdChamado(idChamado);
                     
+                    Chamado chamado = new Chamado();
+                    chamado.setIdChamado(idChamados);
+                    chamado.setNomeChamado(nomeChamado);
+                    chamado.setDescricao(descricao);
+                    chamado.setResponsavelChamado(responsavelChamado);
+                    chamado.setUrgencia(urgencia);
+                    chamado.setInicioChamado(inicioChamado);
+                    chamado.setResponsavelSolicitante(responsavelSolicitante);
+                    chamado.setSetor(setor);
+                    chamado.setChamadoStatus(status);
+
                     return chamado;
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
         
         return null;
     }
     
-    public boolean updateChamadoById(int idChamado, String novoNomeChamado, String novaDescricao, String novoResponsavelChamado, String novoResponsavelSolicitante, Date novoInicioChamado, int novaUrgencia, ChamadoStatus novoChamadoStatus, Setor novoSetor) throws SQLException {
-        CriaConexao criaConexao = new CriaConexao();
-        
-        try (Connection connection = criaConexao.recuperarConexao();
-             PreparedStatement pstm = connection.prepareStatement("UPDATE chamados SET nomeChamado = ?, descricao = ?, responsavelChamado = ?, responsavelSolicitante = ?, inicioChamado = ?, urgencia = ?, chamadoStatus = ?, setor = ? WHERE id_chamado = ?")) {
-            
-            pstm.setString(1, novoNomeChamado);
-            pstm.setString(2, novaDescricao);
-            pstm.setString(3, novoResponsavelChamado);
-            pstm.setString(4, novoResponsavelSolicitante);
-            pstm.setDate(5, new java.sql.Date(novoInicioChamado.getTime()));
-            pstm.setInt(6, novaUrgencia);
-            pstm.setString(7, novoChamadoStatus.name());
-            pstm.setString(8, novoSetor.name());
-            pstm.setInt(9, idChamado);
-            
-            int rowsAffected = pstm.executeUpdate();
-            
-            return rowsAffected > 0;
+    public boolean updateChamado(int idChamados, String novoNomeChamado, String novaDescricao, int novoResponsavelChamado, int novoResponsavelSolicitante, LocalDate novoInicioChamado, int novaUrgencia, ChamadoStatus novoChamadoStatus, Setor novoSetor) throws SQLException {
+    CriaConexao criaConexao = new CriaConexao();
+
+    try (Connection connection = criaConexao.recuperarConexao();
+         PreparedStatement pstm = connection.prepareStatement("UPDATE chamados SET nomeChamado = ?, descricao = ?, responsavelChamado = ?, fk_urgencia = ?, inicioChamado = ?, responsavelSolicitante = ?, fk_setor = ?, fk_chamadoStatus = ? WHERE id_chamados = ?")) {
+
+        pstm.setString(1, novoNomeChamado);
+        pstm.setString(2, novaDescricao);
+        pstm.setInt(3, novoResponsavelChamado);
+        pstm.setInt(4, novaUrgencia);
+        pstm.setObject(5, java.sql.Date.valueOf(novoInicioChamado));
+        pstm.setInt(6, novoResponsavelSolicitante);
+        pstm.setInt(7, novoSetor.getValue());
+        pstm.setInt(8, novoChamadoStatus.getValue());
+        pstm.setInt(9, idChamados);
+
+        int rowsAffected = pstm.executeUpdate();
+
+        return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

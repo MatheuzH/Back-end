@@ -78,6 +78,13 @@ public class Funcionario {
         this.senha = senha;
     }
 
+    @Override
+    public String toString() {
+       return "Id funcionario: " + this.getId_funcionario()
+                + " " + "\nNome funcionário: " + this.getNomeFuncionario()
+                + " " + "\nCargo funcionário: " + this.getCargo()
+                + " " + "\nSetor funcionário: " + this.getId_Setor();  
+    }
 
 }
 
