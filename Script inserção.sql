@@ -11,6 +11,3 @@ select * from setor;
 select * from chamadostatus;
 select * from chamados;
 select * from urgencia;
-
-INSERT INTO chamados(nomeChamado,descricao,responsavelChamado,fk_urgencia,inicioChamado,responsavelSolicitante,fk_setor,fk_chamadoStatus)
-values("oi","preciso de ajuda para ligar o pc",1,1,"2023-05-31",2,1,1);
