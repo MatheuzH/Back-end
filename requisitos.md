@@ -9,13 +9,12 @@ Criação do Banco de Dados e Código Back-End para um sistema ERP voltado para 
 |R5|Cada chamado deve ter um (1) responsável.|
 |R6|Os chamados devem passar por um processo de triagem.|
 |R7|O sistema deve permitir o cadástro de usuários.|
-|R8|Os usuários devem ser divididos em: Cliente e Funcionário.|
-|R9|Cliente só pode criar chamados e acompanhar seu estado.|
-|R10|Funcionários devem ter cargos, sendo eles: Gestor Comercial, Gestor Operações, Analista Comercial, Analista de Operações, Analista de TI, Administrador do Sistema.|
-|R11|Cada cargo só pode ver um tipo específico de setor de chamado.|
-|R11.1|Gestor Comercial e Analista Comercial vê chamados do setor Comercial.|
-|R11.2|Gestor de Operações e Analista de Operações vê chamados do setor de Operações.|
-|R11.3|Analista de TI vê chamados do setor de TI.|
-|R12|Administrador do Sistema pode ver tudo.|
-|R13|Qualquer funcionário pode ver quem abriu o chamado.|
-|R14|O analista de TI é responsável por definir a urgência de um chamado.|
+|R8|Todo usuário é um funcionário, e somente um Adminstrador pode cadastrar um usuário.|
+|R9|Funcionários devem ter cargos, sendo eles: Gestor Comercial, Gestor Operações, Analista Comercial, Analista de Operações, Analista de TI, Administrador do Sistema.|
+|R10|Cada cargo só pode ver um tipo específico de setor de chamado.|
+|R10.1|Gestor Comercial e Analista Comercial vê chamados do setor Comercial.|
+|R10.2|Gestor de Operações e Analista de Operações vê chamados do setor de Operações.|
+|R10.3|Analista de TI vê chamados do setor de TI.|
+|R10.4|Administrador do Sistema pode ver tudo.|
+|R11|Qualquer funcionário pode ver quem abriu o chamado.|
+|R12|O analista de TI é responsável por definir a urgência de um chamado.|
